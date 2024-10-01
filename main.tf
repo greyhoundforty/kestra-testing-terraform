@@ -23,13 +23,6 @@ resource "random_string" "prefix" {
   upper   = false
 }
 
-resource "tailscale_tailnet_key" "lab" {
-  reusable      = false
-  ephemeral     = true
-  preauthorized = true
-  expiry        = 7776000
-  description   = "Demo tailscale key for lab"
-}
 
 # If an existing resource group is provided, this module returns the ID, otherwise it creates a new one and returns the ID
 module "resource_group" {
@@ -38,3 +31,6 @@ module "resource_group" {
   resource_group_name          = var.existing_resource_group == null ? "${local.prefix}-resource-group" : null
   existing_resource_group_name = var.existing_resource_group
 }
+
+output "resource_group_id" { value = module.resource_group.resource_group_id }
+
